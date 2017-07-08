@@ -20,7 +20,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     let eyeCamera : SCNCamera = SCNCamera()
     
     // Parametres
+    let interpupilaryDistance = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
     let viewBackgroundColor : UIColor = UIColor.white
+    
     let eyeFOV = 90 // 38.5
     let cameraImageScale = 6 // 1.739
     
@@ -115,7 +117,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set PointOfView for SceneView-LeftEye
         sceneViewLeft.pointOfView = pointOfView
         
-        // To Add: Right-Eye Calculations ...
+        // Clone pointOfView for Right-Eye SceneView
+        let pointOfView2 : SCNNode = (sceneViewLeft.pointOfView?.clone())!
+        // Determine Adjusted Position for Right Eye
+        let orientation : SCNQuaternion = pointOfView.orientation
+        let orientationQuaternion : GLKQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
+        let eyePos : GLKVector3 = GLKVector3Make(1.0, 0.0, 0.0)
+        let rotatedEyePos : GLKVector3 = GLKQuaternionRotateVector3(orientationQuaternion, eyePos)
+        let rotatedEyePosSCNV : SCNVector3 = SCNVector3Make(rotatedEyePos.x, rotatedEyePos.y, rotatedEyePos.z)
+        let mag : Float = Float(interpupilaryDistance)
+        pointOfView2.position.x += rotatedEyePosSCNV.x * mag
+        pointOfView2.position.y += rotatedEyePosSCNV.y * mag
+        pointOfView2.position.z += rotatedEyePosSCNV.z * mag
         
         // Set PointOfView for SceneView-RightEye
         sceneViewRight.pointOfView = pointOfView
