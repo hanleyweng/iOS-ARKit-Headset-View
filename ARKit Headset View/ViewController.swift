@@ -23,8 +23,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     let interpupilaryDistance = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
     let viewBackgroundColor : UIColor = UIColor.white
     
-    let eyeFOV = 90 // 38.5
-    let cameraImageScale = 6 // 1.739
+    // Set eyeFOV and cameraImageScale. Uncomment any of the below lines to change FOV.
+    //    let eyeFOV = 38.5; let cameraImageScale = 1.739; // (FOV: 38.5 ± 2.0) Brute-force estimate based on iPhone7+
+    let eyeFOV = 60; let cameraImageScale = 3.478; // Calculation based on iPhone7+ // <- Works quite well for cheap mobile headsets.
+    //    let eyeFOV = 90; let cameraImageScale = 6; // (Scale: 6 ± 1.0) Very Rough Guestimate.
+    //    let eyeFOV = 120; let cameraImageScale = 8.756; // Rough Guestimate.
     
     override func viewDidLoad() {
         super.viewDidLoad()
