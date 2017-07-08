@@ -54,6 +54,8 @@
                     </view>
                     <connections>
                         <outlet property="sceneView" destination="sp6-YF-JnO" id="Bi7-n9-pcS"/>
+                        <outlet property="sceneViewLeft" destination="UbT-LZ-qOT" id="oWK-aF-Nfy"/>
+                        <outlet property="sceneViewRight" destination="zb0-hr-6rz" id="RIt-dX-dro"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
