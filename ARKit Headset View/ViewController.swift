@@ -15,6 +15,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var sceneViewLeft: ARSCNView!
     @IBOutlet weak var sceneViewRight: ARSCNView!
+    let eyeCamera : SCNCamera = SCNCamera()
+    
+    let eyeFOV = 38.5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneViewRight.showsStatistics = sceneView.showsStatistics
         sceneViewRight.isPlaying = true
         
+        ////////////////////////////////////////////////////////////////
+        // Create CAMERA
+        eyeCamera.zNear = 0.001
+        /*
+         Note:
+         - camera.projectionTransform was not used as it currently prevents the simplistic setting of .fieldOfView . The lack of metal, or lower-level calculations, is likely what is causing mild latency with the camera.
+         - .fieldOfView may refer to .yFov or a diagonal-fov.
+         - in a STEREOSCOPIC layout on iPhone7+, the fieldOfView of one eye by default, is closer to 38.5°, than the listed default of 60°
+         */
+        eyeCamera.fieldOfView = CGFloat(eyeFOV)
         
     }
     
@@ -72,6 +85,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func updateFrame() {
+        /////////////////////////////////////////////
+        // CREATE POINT OF VIEWS
+        let pointOfView : SCNNode = SCNNode()
+        pointOfView.transform = (sceneView.pointOfView?.transform)!
+        pointOfView.scale = (sceneView.pointOfView?.scale)!
+        // Create POV from Camera
+        pointOfView.camera = eyeCamera
         
+        // Set PointOfView for SceneView-LeftEye
+        sceneViewLeft.pointOfView = pointOfView
+        
+        // To Add: Right-Eye Calculations ...
+        
+        // Set PointOfView for SceneView-RightEye
+        sceneViewRight.pointOfView = pointOfView
     }
 }
