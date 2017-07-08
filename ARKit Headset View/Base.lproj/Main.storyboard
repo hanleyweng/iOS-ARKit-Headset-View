@@ -20,6 +20,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ToM-A9-1Hk">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gFe-i0-sb4">
+                                        <rect key="frame" x="0.0" y="0.0" width="333.5" height="375"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iRl-63-A4N">
+                                        <rect key="frame" x="333.5" y="0.0" width="333.5" height="375"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="iRl-63-A4N" firstAttribute="width" secondItem="gFe-i0-sb4" secondAttribute="width" id="lEd-W5-O2d"/>
+                                </constraints>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h5b-Xi-IW1">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <subviews>
@@ -44,15 +58,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ToM-A9-1Hk" firstAttribute="leading" secondItem="3vJ-Vw-bWk" secondAttribute="leading" id="6ZT-SC-rYn"/>
                             <constraint firstItem="h5b-Xi-IW1" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="9CQ-5Y-kR2"/>
                             <constraint firstItem="ziU-lt-Y7R" firstAttribute="top" secondItem="h5b-Xi-IW1" secondAttribute="bottom" id="CoV-Cz-aAo"/>
                             <constraint firstAttribute="trailing" secondItem="h5b-Xi-IW1" secondAttribute="trailing" id="PzO-CF-BzH"/>
                             <constraint firstItem="h5b-Xi-IW1" firstAttribute="leading" secondItem="3vJ-Vw-bWk" secondAttribute="leading" id="RI6-gU-evS"/>
+                            <constraint firstItem="ToM-A9-1Hk" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="Rcy-Qb-iim"/>
                             <constraint firstItem="sp6-YF-JnO" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="e8L-4D-QfK"/>
                             <constraint firstItem="sp6-YF-JnO" firstAttribute="centerX" secondItem="3vJ-Vw-bWk" secondAttribute="centerX" id="inl-R6-nPW"/>
+                            <constraint firstAttribute="trailing" secondItem="ToM-A9-1Hk" secondAttribute="trailing" id="o3s-kP-qWb"/>
+                            <constraint firstItem="ziU-lt-Y7R" firstAttribute="top" secondItem="ToM-A9-1Hk" secondAttribute="bottom" id="w9a-DL-Fso"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imageViewLeft" destination="gFe-i0-sb4" id="8Ip-As-Hrj"/>
+                        <outlet property="imageViewRight" destination="iRl-63-A4N" id="Q2j-mJ-Jp4"/>
                         <outlet property="sceneView" destination="sp6-YF-JnO" id="Bi7-n9-pcS"/>
                         <outlet property="sceneViewLeft" destination="UbT-LZ-qOT" id="oWK-aF-Nfy"/>
                         <outlet property="sceneViewRight" destination="zb0-hr-6rz" id="RIt-dX-dro"/>

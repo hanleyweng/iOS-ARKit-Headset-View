@@ -15,6 +15,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var sceneViewLeft: ARSCNView!
     @IBOutlet weak var sceneViewRight: ARSCNView!
+    @IBOutlet weak var imageViewLeft: UIImageView!
+    @IBOutlet weak var imageViewRight: UIImageView!
+    
     let eyeCamera : SCNCamera = SCNCamera()
     
     let eyeFOV = 38.5
