@@ -20,7 +20,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     let eyeCamera : SCNCamera = SCNCamera()
     
-    let eyeFOV = 38.5
+    let eyeFOV = 90 // 38.5
+    let cameraImageScale = 6 // 1.739
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
          */
         eyeCamera.fieldOfView = CGFloat(eyeFOV)
         
+        ////////////////////////////////////////////////////////////////
+        // Setup ImageViews - for rendering Camera Image
+        self.imageViewLeft.clipsToBounds = true
+        self.imageViewLeft.contentMode = UIViewContentMode.center
+        self.imageViewRight.clipsToBounds = true
+        self.imageViewRight.contentMode = UIViewContentMode.center
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,5 +110,41 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set PointOfView for SceneView-RightEye
         sceneViewRight.pointOfView = pointOfView
+        
+        ////////////////////////////////////////////
+        // RENDER CAMERA IMAGE
+        /*
+         Note:
+         - as camera.contentsTransform doesn't appear to affect the camera-image at the current time, we are re-rendering the image.
+         - for performance, this should be ideally be ported to metal
+         */
+        // Clear Original Camera-Image
+        sceneViewLeft.scene.background.contents = UIColor.clear // This sets a transparent scene bg for all sceneViews - as they're all rendering the same scene.
+        
+        // Read Camera-Image
+        let pixelBuffer : CVPixelBuffer? = sceneView.session.currentFrame?.capturedImage
+        if pixelBuffer == nil { return }
+        let ciimage = CIImage(cvPixelBuffer: pixelBuffer!)
+        // Convert ciimage to cgimage, so uiimage can affect its orientation
+        let context = CIContext(options: nil)
+        let cgimage = context.createCGImage(ciimage, from: ciimage.extent)
+        
+        // Determine Camera-Image Scale
+        var scale_custom : CGFloat = 1.0
+        // let cameraImageSize : CGSize = CGSize(width: ciimage.extent.width, height: ciimage.extent.height) // 1280 x 720 on iPhone 7+
+        // let eyeViewSize : CGSize = CGSize(width: self.view.bounds.width / 2, height: self.view.bounds.height) // (736/2) x 414 on iPhone 7+
+        // let scale_aspectFill : CGFloat = cameraImageSize.height / eyeViewSize.height // 1.739 // fov = ~38.5 (guestimate on iPhone7+)
+        // let scale_aspectFit : CGFloat = cameraImageSize.width / eyeViewSize.width // 3.478 // fov = ~60
+        // scale_custom = 8.756 // (8.756) ~ appears close to 120° FOV - (guestimate on iPhone7+)
+        // scale_custom = 6 // (6±1) ~ appears close-ish to 90° FOV - (guestimate on iPhone7+)
+        scale_custom = CGFloat(cameraImageScale)
+        
+        // Determine Camera-Image Orientation
+        let imageOrientation : UIImageOrientation = (UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeLeft) ? UIImageOrientation.down : UIImageOrientation.up
+        
+        // Display Camera-Image
+        let uiimage = UIImage(cgImage: cgimage!, scale: scale_custom, orientation: imageOrientation)
+        self.imageViewLeft.image = uiimage
+        self.imageViewRight.image = uiimage
     }
 }
