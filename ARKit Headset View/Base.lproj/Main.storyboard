@@ -12,16 +12,53 @@
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="ARKit_Headset_View" customModuleProvider="target" sceneMemberID="viewController">
-                    <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BrB-h1-WRS">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nda-fX-cEf"/>
+                        <viewControllerLayoutGuide type="bottom" id="ziU-lt-Y7R"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3vJ-Vw-bWk">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </arscnView>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h5b-Xi-IW1">
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                                <subviews>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UbT-LZ-qOT">
+                                        <rect key="frame" x="0.0" y="0.0" width="333.5" height="375"/>
+                                    </arscnView>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zb0-hr-6rz">
+                                        <rect key="frame" x="333.5" y="0.0" width="333.5" height="375"/>
+                                    </arscnView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zb0-hr-6rz" firstAttribute="width" secondItem="UbT-LZ-qOT" secondAttribute="width" id="OHZ-h1-Xoj"/>
+                                </constraints>
+                            </stackView>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sp6-YF-JnO">
+                                <rect key="frame" x="213" y="0.0" width="240" height="135"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="135" id="AWJ-Ip-MmI"/>
+                                    <constraint firstAttribute="width" constant="240" id="Ty7-ys-SyI"/>
+                                </constraints>
+                            </arscnView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="h5b-Xi-IW1" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="9CQ-5Y-kR2"/>
+                            <constraint firstItem="ziU-lt-Y7R" firstAttribute="top" secondItem="h5b-Xi-IW1" secondAttribute="bottom" id="CoV-Cz-aAo"/>
+                            <constraint firstAttribute="trailing" secondItem="h5b-Xi-IW1" secondAttribute="trailing" id="PzO-CF-BzH"/>
+                            <constraint firstItem="h5b-Xi-IW1" firstAttribute="leading" secondItem="3vJ-Vw-bWk" secondAttribute="leading" id="RI6-gU-evS"/>
+                            <constraint firstItem="sp6-YF-JnO" firstAttribute="top" secondItem="nda-fX-cEf" secondAttribute="bottom" id="e8L-4D-QfK"/>
+                            <constraint firstItem="sp6-YF-JnO" firstAttribute="centerX" secondItem="3vJ-Vw-bWk" secondAttribute="centerX" id="inl-R6-nPW"/>
+                        </constraints>
+                    </view>
                     <connections>
-                        <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                        <outlet property="sceneView" destination="sp6-YF-JnO" id="Bi7-n9-pcS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="34.632683658170919" y="24.800000000000001"/>
         </scene>
     </scenes>
 </document>
