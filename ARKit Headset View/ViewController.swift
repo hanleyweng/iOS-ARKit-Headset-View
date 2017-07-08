@@ -17,9 +17,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet weak var sceneViewRight: ARSCNView!
     @IBOutlet weak var imageViewLeft: UIImageView!
     @IBOutlet weak var imageViewRight: UIImageView!
-    
     let eyeCamera : SCNCamera = SCNCamera()
     
+    // Parametres
+    let viewBackgroundColor : UIColor = UIColor.white
     let eyeFOV = 90 // 38.5
     let cameraImageScale = 6 // 1.739
     
@@ -34,6 +35,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let scene = SCNScene(named: "art.scnassets/ship.scn")!
         // Set the scene to the view
         sceneView.scene = scene
+        
+        ////////////////////////////////////////////////////////////////
+        // App Setup
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        // Scene setup
+        sceneView.isHidden = true
+        self.view.backgroundColor = viewBackgroundColor
         
         ////////////////////////////////////////////////////////////////
         // Set up Left-Eye SceneView
