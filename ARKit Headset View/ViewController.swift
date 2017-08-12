@@ -25,7 +25,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     // Set eyeFOV and cameraImageScale. Uncomment any of the below lines to change FOV.
     //    let eyeFOV = 38.5; let cameraImageScale = 1.739; // (FOV: 38.5 ± 2.0) Brute-force estimate based on iPhone7+
-    let eyeFOV = 60; let cameraImageScale = 3.478; // Calculation based on iPhone7+ // <- Works quite well for cheap mobile headsets.
+    let eyeFOV = 60; let cameraImageScale = 3.478; // Calculation based on iPhone7+ // <- Works ok for cheap mobile headsets. Rough guestimate.
     //    let eyeFOV = 90; let cameraImageScale = 6; // (Scale: 6 ± 1.0) Very Rough Guestimate.
     //    let eyeFOV = 120; let cameraImageScale = 8.756; // Rough Guestimate.
     
@@ -134,7 +134,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         pointOfView2.position.z += rotatedEyePosSCNV.z * mag
         
         // Set PointOfView for SceneView-RightEye
-        sceneViewRight.pointOfView = pointOfView
+        sceneViewRight.pointOfView = pointOfView2
         
         ////////////////////////////////////////////
         // RENDER CAMERA IMAGE
