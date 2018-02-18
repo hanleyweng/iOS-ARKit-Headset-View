@@ -21,13 +21,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     // Parametres
     let interpupilaryDistance = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
-    let viewBackgroundColor : UIColor = UIColor.white
+    let viewBackgroundColor : UIColor = UIColor.black // UIColor.white
     
-    // Set eyeFOV and cameraImageScale. Uncomment any of the below lines to change FOV.
-    //    let eyeFOV = 38.5; let cameraImageScale = 1.739; // (FOV: 38.5 ± 2.0) Brute-force estimate based on iPhone7+
-    let eyeFOV = 60; let cameraImageScale = 3.478; // Calculation based on iPhone7+ // <- Works ok for cheap mobile headsets. Rough guestimate.
-    //    let eyeFOV = 90; let cameraImageScale = 6; // (Scale: 6 ± 1.0) Very Rough Guestimate.
-    //    let eyeFOV = 120; let cameraImageScale = 8.756; // Rough Guestimate.
+    /*
+     SET eyeFOV and cameraImageScale. UNCOMMENT any of the below lines to change FOV:
+     */
+    //    let eyeFOV = 38.5; var cameraImageScale = 1.739; // (FOV: 38.5 ± 2.0) Brute-force estimate based on iPhone7+
+    let eyeFOV = 60; var cameraImageScale = 3.478; // Calculation based on iPhone7+ // <- Works ok for cheap mobile headsets. Rough guestimate.
+    //    let eyeFOV = 90; var cameraImageScale = 6; // (Scale: 6 ± 1.0) Very Rough Guestimate.
+    //    let eyeFOV = 120; var cameraImageScale = 8.756; // Rough Guestimate.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +61,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneViewRight.scene = scene
         sceneViewRight.showsStatistics = sceneView.showsStatistics
         sceneViewRight.isPlaying = true
+        
+        ////////////////////////////////////////////////////////////////
+        // Update Camera Image Scale - according to iOS 11.3 (ARKit 1.5)
+        if #available(iOS 11.3, *) {
+            print("iOS 11.3 or later")
+            cameraImageScale = cameraImageScale * 1080.0 / 720.0
+        } else {
+            print("earlier than iOS 11.3")
+        }
         
         ////////////////////////////////////////////////////////////////
         // Create CAMERA
@@ -141,7 +152,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         /*
          Note:
          - as camera.contentsTransform doesn't appear to affect the camera-image at the current time, we are re-rendering the image.
-         - for performance, this should be ideally be ported to metal
+         - for performance, this should ideally be ported to metal
          */
         // Clear Original Camera-Image
         sceneViewLeft.scene.background.contents = UIColor.clear // This sets a transparent scene bg for all sceneViews - as they're all rendering the same scene.

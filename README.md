@@ -1,8 +1,8 @@
 # ARKit Headset View
 
-Make your ARKit experiment compatible with mobile VR/AR headsets*. An example setup using SceneKit. Useful for playing with head-worn Mixed Reality, Augmented Reality, Virtual Reality with headtracking, or a mix of everything.
+Make your ARKit experiment compatible with mobile VR/AR headsets*. An example setup using SceneKit. Useful for playing with head-worn Mixed Reality, Augmented Reality, or Virtual Reality with headtracking.
 
-_This is the newer, more experimental (code-wise), and heavier sibling of ["iOS Stereoscopic ARKit Template"](https://github.com/hanleyweng/iOS-Stereoscopic-ARKit-Template)._
+_(This template is built off the ["iOS Stereoscopic ARKit Template"](https://github.com/hanleyweng/iOS-Stereoscopic-ARKit-Template) )_
 
 ![stereoscopic image of spaceship in augmented reality](post-media/60deg-black.jpg)
 
@@ -10,9 +10,9 @@ Language: Swift
 
 Content Technology: SceneKit
 
-Written in: Xcode 9 beta 2 (9M137d)
+Written in (Updated): Xcode 9.3 beta (9Q98q)
 
-Tested on: iPhone 7+ running iOS 11 beta 2 (15A5404i)
+Tested on (Updated): iPhone 7+ running iOS 11.3 beta 1 (15E5167f)
 
 ## Footnotes
 
@@ -106,6 +106,6 @@ This was done with some maths, but mainly lots of guessing. He's some values tha
 
 ### Done!
 
-Feel free use however you like ([MIT License](https://choosealicense.com/licenses/mit/)).  Have fun! 😁
+([MIT License](https://choosealicense.com/licenses/mit/)) – the most open license I could find. Feel free use in absolutely whatever way you like. Have fun! 😁
 
 ![stereoscopic image of spaceship in augmented reality, 90 degree FOV](post-media/90deg-white.jpg)
