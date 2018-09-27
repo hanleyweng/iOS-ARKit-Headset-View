@@ -34,12 +34,22 @@ class ARSCNStereoViewClass {
     //    let eyeFOV = 120; var cameraImageScale = 8.756; // Rough Guestimate.
     
     func viewDidLoad_setup(iSceneView: ARSCNView, iSceneViewLeft: ARSCNView, iSceneViewRight: ARSCNView, iImageViewLeft: UIImageView, iImageViewRight: UIImageView) {
+        
         sceneView = iSceneView
         sceneViewLeft = iSceneViewLeft
         sceneViewRight = iSceneViewRight
         imageViewLeft = iImageViewLeft
         imageViewRight = iImageViewRight
         
+        ////////////////////////////////////////////////////////////////
+        // Prevent Auto-Lock
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        // Prevent Screen Dimming
+        let currentScreenBrightness = UIScreen.main.brightness
+        UIScreen.main.brightness = currentScreenBrightness
+        
+        ////////////////////////////////////////////////////////////////
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         // Create a new scene
@@ -48,7 +58,8 @@ class ARSCNStereoViewClass {
         sceneView.scene = scene
         
         // Set Debug Options
-        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin]
+        // sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin]
+        sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, .showFeaturePoints]
         
         // Scene setup
         sceneView.isHidden = true
@@ -67,11 +78,12 @@ class ARSCNStereoViewClass {
         ////////////////////////////////////////////////////////////////
         // Setup ImageViews - for rendering Camera Image
         self.imageViewLeft.clipsToBounds = true
-        self.imageViewLeft.contentMode = UIViewContentMode.center
+        self.imageViewLeft.contentMode = UIView.ContentMode.center
         self.imageViewRight.clipsToBounds = true
-        self.imageViewRight.contentMode = UIViewContentMode.center
+        self.imageViewRight.contentMode = UIView.ContentMode.center
         
         ////////////////////////////////////////////////////////////////
+        // Note: iOS 11.3 has introduced ARKit at 1080p, up for 720p
         // Update Camera Image Scale - according to iOS 11.3 (ARKit 1.5)
         if #available(iOS 11.3, *) {
             print("iOS 11.3 or later")
@@ -92,6 +104,7 @@ class ARSCNStereoViewClass {
         eyeCamera.fieldOfView = CGFloat(eyeFOV)
     }
     
+    /* Called constantly, at every Frame */
     func updateFrame() {
         updatePOVs()
         updateImages()
@@ -136,7 +149,7 @@ class ARSCNStereoViewClass {
          */
         
         // Clear Original Camera-Image
-        sceneViewLeft.scene.background.contents = UIColor.clear // This sets a transparent scene bg for all sceneViews - as they're all rendering the same scene.
+        sceneView.scene.background.contents = UIColor.clear // This sets a transparent scene bg for all sceneViews - as they're all rendering the same scene.
         
         // Read Camera-Image
         let pixelBuffer : CVPixelBuffer? = sceneView.session.currentFrame?.capturedImage
@@ -150,7 +163,7 @@ class ARSCNStereoViewClass {
         let scale_custom : CGFloat = CGFloat(cameraImageScale)
         
         // Determine Camera-Image Orientation
-        let imageOrientation : UIImageOrientation = (UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeLeft) ? UIImageOrientation.down : UIImageOrientation.up
+        let imageOrientation : UIImage.Orientation = (UIApplication.shared.statusBarOrientation == UIInterfaceOrientation.landscapeLeft) ? UIImage.Orientation.down : UIImage.Orientation.up
         
         // Display Camera-Image
         let uiimage = UIImage(cgImage: cgimage!, scale: scale_custom, orientation: imageOrientation)
