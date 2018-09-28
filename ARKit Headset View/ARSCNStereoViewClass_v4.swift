@@ -22,6 +22,7 @@ class ARSCNStereoViewClass {
     let eyeCamera : SCNCamera = SCNCamera()
     
     // Parametres
+    let _CAMERA_IS_ON_LEFT_EYE = false
     let interpupilaryDistance : Float = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
     
     /*
@@ -106,7 +107,7 @@ class ARSCNStereoViewClass {
     /* Called constantly, at every Frame */
     func updateFrame() {
         updatePOVs()
-        updateImages()
+        // updateImages()
     }
     
     func updatePOVs() {
@@ -118,13 +119,19 @@ class ARSCNStereoViewClass {
         // Create POV from Camera
         pointOfView.camera = eyeCamera
         
-        // NOTE: Below assumes Left-Eye mirrors the Camera Position, and Right-Eye is the Alternative Eye.
+        let sceneViewMain = _CAMERA_IS_ON_LEFT_EYE ? sceneViewLeft! : sceneViewRight!
+        let sceneViewScnd = _CAMERA_IS_ON_LEFT_EYE ? sceneViewRight! : sceneViewLeft!
         
-        // Set PointOfView for SceneView-LeftEye
-        sceneViewLeft.pointOfView = pointOfView
+        //////////////////////////
+        // Set PointOfView of Main Camera Eye
+        
+        sceneViewMain.pointOfView = pointOfView
+
+        //////////////////////////
+        // Set PointOfView of Virtual Second Eye
         
         // Clone pointOfView for Right-Eye SceneView
-        let pointOfView2 : SCNNode = (sceneViewLeft.pointOfView?.clone())! // Note: We clone the pov of sceneViewLeft here, not sceneView - to get the correct Camera FOV.
+        let pointOfView2 : SCNNode = (sceneViewMain.pointOfView?.clone())! // Note: We clone the pov of sceneViewLeft here, not sceneView - to get the correct Camera FOV.
         
         // Determine Adjusted Position for Right Eye
         
@@ -134,7 +141,8 @@ class ARSCNStereoViewClass {
         let orientation_glk : GLKQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
         
         // Set Transform Vector (this case it's the Positive X-Axis.)
-        let alternateEyePos : GLKVector3 = GLKVector3Make(1.0, 0.0, 0.0) // e.g. This would be GLKVector3Make(- 1.0, 0.0, 0.0) if we were manipulating an eye to the 'left' of the source-View. Or, in the odd case we were manipulating an eye that was 'above' the eye of the source-view, it'd be GLKVector3Make(0.0, 1.0, 0.0).
+        let xdir : Float = _CAMERA_IS_ON_LEFT_EYE ? 1.0 : -1.0
+        let alternateEyePos : GLKVector3 = GLKVector3Make(xdir, 0.0, 0.0) // e.g. This would be GLKVector3Make(- 1.0, 0.0, 0.0) if we were manipulating an eye to the 'left' of the source-View. Or, in the odd case we were manipulating an eye that was 'above' the eye of the source-view, it'd be GLKVector3Make(0.0, 1.0, 0.0).
         
         // Calculate Transform Vector
         let transformVector = getTransformForNewNodePovPosition(orientationQuaternion: orientation_glk, eyePosDirection: alternateEyePos, magnitude: interpupilaryDistance)
@@ -143,7 +151,7 @@ class ARSCNStereoViewClass {
         pointOfView2.localTranslate(by: transformVector) // works - just not entirely certain
         
         // Set PointOfView2 for SceneView-RightEye
-        sceneViewRight.pointOfView = pointOfView2
+        sceneViewScnd.pointOfView = pointOfView2
     }
     
     /**
