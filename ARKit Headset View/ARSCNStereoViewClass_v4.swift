@@ -22,8 +22,7 @@ class ARSCNStereoViewClass {
     let eyeCamera : SCNCamera = SCNCamera()
     
     // Parametres
-    let interpupilaryDistance = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
-    
+    let interpupilaryDistance : Float = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
     
     /*
      SET eyeFOV and cameraImageScale. UNCOMMENT any of the below lines to change FOV:
@@ -119,24 +118,53 @@ class ARSCNStereoViewClass {
         // Create POV from Camera
         pointOfView.camera = eyeCamera
         
+        // NOTE: Below assumes Left-Eye mirrors the Camera Position, and Right-Eye is the Alternative Eye.
+        
         // Set PointOfView for SceneView-LeftEye
         sceneViewLeft.pointOfView = pointOfView
         
         // Clone pointOfView for Right-Eye SceneView
-        let pointOfView2 : SCNNode = (sceneViewLeft.pointOfView?.clone())!
-        // Determine Adjusted Position for Right Eye
-        let orientation : SCNQuaternion = pointOfView.orientation
-        let orientationQuaternion : GLKQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
-        let eyePos : GLKVector3 = GLKVector3Make(1.0, 0.0, 0.0)
-        let rotatedEyePos : GLKVector3 = GLKQuaternionRotateVector3(orientationQuaternion, eyePos)
-        let rotatedEyePosSCNV : SCNVector3 = SCNVector3Make(rotatedEyePos.x, rotatedEyePos.y, rotatedEyePos.z)
-        let mag : Float = Float(interpupilaryDistance)
-        pointOfView2.position.x += rotatedEyePosSCNV.x * mag
-        pointOfView2.position.y += rotatedEyePosSCNV.y * mag
-        pointOfView2.position.z += rotatedEyePosSCNV.z * mag
+        let pointOfView2 : SCNNode = (sceneViewLeft.pointOfView?.clone())! // Note: We clone the pov of sceneViewLeft here, not sceneView - to get the correct Camera FOV.
         
-        // Set PointOfView for SceneView-RightEye
+        // Determine Adjusted Position for Right Eye
+        
+        // Get original orientation. Co-ordinates:
+        let orientation : SCNQuaternion = pointOfView2.orientation // not '.worldOrientation'
+        // Convert to GLK
+        let orientation_glk : GLKQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
+        
+        // Set Transform Vector (this case it's the Positive X-Axis.)
+        let alternateEyePos : GLKVector3 = GLKVector3Make(1.0, 0.0, 0.0) // e.g. This would be GLKVector3Make(- 1.0, 0.0, 0.0) if we were manipulating an eye to the 'left' of the source-View. Or, in the odd case we were manipulating an eye that was 'above' the eye of the source-view, it'd be GLKVector3Make(0.0, 1.0, 0.0).
+        
+        // Calculate Transform Vector
+        let transformVector = getTransformForNewNodePovPosition(orientationQuaternion: orientation_glk, eyePosDirection: alternateEyePos, magnitude: interpupilaryDistance)
+        
+        // Add Transform to PointOfView2
+        pointOfView2.localTranslate(by: transformVector) // works - just not entirely certain
+        
+        // Set PointOfView2 for SceneView-RightEye
         sceneViewRight.pointOfView = pointOfView2
+    }
+    
+    /**
+     Used by POVs to ensure correct POVs.
+     
+     For EyePosVector e.g. This would be GLKVector3Make(- 1.0, 0.0, 0.0) if we were manipulating an eye to the 'left' of the source-View. Or, in the odd case we were manipulating an eye that was 'above' the eye of the source-view, it'd be GLKVector3Make(0.0, 1.0, 0.0).
+     */
+    private func getTransformForNewNodePovPosition(orientationQuaternion: GLKQuaternion, eyePosDirection: GLKVector3, magnitude: Float) -> SCNVector3 {
+        
+        // Rotate POV's-Orientation-Quaternion around Vector-to-EyePos.
+        let rotatedEyePos : GLKVector3 = GLKQuaternionRotateVector3(orientationQuaternion, eyePosDirection)
+        // Convert to SceneKit Vector
+        let rotatedEyePos_SCNV : SCNVector3 = SCNVector3Make(rotatedEyePos.x, rotatedEyePos.y, rotatedEyePos.z)
+        
+        // Multiply Vector by magnitude (interpupilary distance)
+        let transformVector : SCNVector3 = SCNVector3Make(rotatedEyePos_SCNV.x * magnitude,
+                                                          rotatedEyePos_SCNV.y * magnitude,
+                                                          rotatedEyePos_SCNV.z * magnitude)
+        
+        return transformVector
+        
     }
     
     func updateImages() {
