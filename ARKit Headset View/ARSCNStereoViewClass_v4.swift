@@ -10,6 +10,8 @@ import Foundation
 import SceneKit
 import ARKit
 
+// 2018-09-27 Note: Running app without being connected to XCode may result in smoother performance.
+
 class ARSCNStereoViewClass {
     
     var sceneView: ARSCNView!
@@ -22,6 +24,7 @@ class ARSCNStereoViewClass {
     let eyeCamera : SCNCamera = SCNCamera()
     
     // Parametres
+    let _HEADSET_IS_PASSTHROUGH_VS_SEETHROUGH = true // Pass-through uses a camera to show the outside world (like Merge VR, Gear VR). See-through headsets allow your eyes to see the real world (Aryzon, Hololens, Northstar).
     let _CAMERA_IS_ON_LEFT_EYE = false
     let interpupilaryDistance : Float = 0.066 // This is the value for the distance between two pupils (in metres). The Interpupilary Distance (IPD).
     
@@ -75,9 +78,9 @@ class ARSCNStereoViewClass {
         directionalNode.light?.color = UIColor.white
         directionalNode.light?.intensity = 2000
         
-        //        directionalNode.light?.castsShadow = true // to cast shadow
-        //        directionalNode.light?.automaticallyAdjustsShadowProjection = true // ?
+                directionalNode.light?.castsShadow = true // to cast shadow
         //        directionalNode.light?.shadowMode = .deferred  // to render shadow in transparent plane
+        //        directionalNode.light?.automaticallyAdjustsShadowProjection = true // ?
         //        directionalNode.light?.shadowSampleCount = 64 //remove flickering of shadow and soften shadow
         //        directionalNode.light?.shadowMapSize = CGSize(width: 2048, height: 2048) //sharpen or detail shadow
         //        directionalNode.position = SCNVector3(x: 0,y: 0,z: 0)
@@ -104,8 +107,10 @@ class ARSCNStereoViewClass {
         // Scene setup
         sceneView.isHidden = true
         
-        // Set Clear Background (so not to show camera background image, nor have that replicated in sceneViewLeft or sceneViewRight) (for See-Through Modes)
-        sceneView.scene.background.contents = UIColor.clear
+        // Set Clear Background for See-Through Headsets
+        if _HEADSET_IS_PASSTHROUGH_VS_SEETHROUGH {
+            sceneView.scene.background.contents = UIColor.clear
+        }
         
         ////////////////////////////////////////////////////////////////
         // Set up Left-Eye SceneView
@@ -150,7 +155,9 @@ class ARSCNStereoViewClass {
     /* Called constantly, at every Frame */
     func updateFrame() {
         updatePOVs()
-        // updateImages()
+        if _HEADSET_IS_PASSTHROUGH_VS_SEETHROUGH {
+            updateImages()
+        }
     }
     
     func updatePOVs() {

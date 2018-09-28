@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AE52DBF1215D91810051BB7E /* ARSCNStereoViewClass_v4.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE52DBF0215D91810051BB7E /* ARSCNStereoViewClass_v4.swift */; };
+		AE52DBF3215DB7DC0051BB7E /* PlaneVisualizerHelperClass_v3.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE52DBF2215DB7DC0051BB7E /* PlaneVisualizerHelperClass_v3.swift */; };
 		AED907291F110C3000063B26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED907281F110C3000063B26 /* AppDelegate.swift */; };
 		AED9072B1F110C3000063B26 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AED9072A1F110C3000063B26 /* art.scnassets */; };
 		AED9072D1F110C3000063B26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED9072C1F110C3000063B26 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		AE52DBF0215D91810051BB7E /* ARSCNStereoViewClass_v4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSCNStereoViewClass_v4.swift; sourceTree = "<group>"; };
+		AE52DBF2215DB7DC0051BB7E /* PlaneVisualizerHelperClass_v3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneVisualizerHelperClass_v3.swift; sourceTree = "<group>"; };
 		AED907251F110C3000063B26 /* ARKit Headset View.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ARKit Headset View.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AED907281F110C3000063B26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AED9072A1F110C3000063B26 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				AED9072A1F110C3000063B26 /* art.scnassets */,
 				AED9072C1F110C3000063B26 /* ViewController.swift */,
 				AE52DBF0215D91810051BB7E /* ARSCNStereoViewClass_v4.swift */,
+				AE52DBF2215DB7DC0051BB7E /* PlaneVisualizerHelperClass_v3.swift */,
 				AED9072E1F110C3000063B26 /* Main.storyboard */,
 				AED907311F110C3000063B26 /* Assets.xcassets */,
 				AED907331F110C3000063B26 /* LaunchScreen.storyboard */,
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AED9072D1F110C3000063B26 /* ViewController.swift in Sources */,
+				AE52DBF3215DB7DC0051BB7E /* PlaneVisualizerHelperClass_v3.swift in Sources */,
 				AED907291F110C3000063B26 /* AppDelegate.swift in Sources */,
 				AE52DBF1215D91810051BB7E /* ARSCNStereoViewClass_v4.swift in Sources */,
 			);
@@ -218,7 +222,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -269,7 +273,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

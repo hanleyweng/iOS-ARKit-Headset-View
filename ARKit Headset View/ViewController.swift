@@ -21,7 +21,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // Parametres
     let viewBackgroundColor : UIColor = UIColor.black // UIColor.white
     
+    // Classes
     var arScnStereoViewClass = ARSCNStereoViewClass()
+    var planeVisualizerHelperClass = PlaneVisualizerHelperClass()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +52,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration // Run the view's session
         let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = .horizontal
+        if #available(iOS 11.3, *) {
+            print("iOS 11.3 or later")
+            configuration.planeDetection = [.horizontal, .vertical]
+        } else {
+            print("earlier than iOS 11.3")
+            configuration.planeDetection = .horizontal
+        }
+        
         sceneView.session.run(configuration)
     }
     
@@ -71,6 +80,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         DispatchQueue.main.async {
             self.arScnStereoViewClass.updateFrame()
         }
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        // planeVisualizerHelperClass.renderer(renderer, didAdd: node, for: anchor)
+    }
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        // planeVisualizerHelperClass.renderer(renderer, didUpdate: node, for: anchor)
+    }
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        // planeVisualizerHelperClass.renderer(renderer, didRemove: node, for: anchor)
     }
     
 }
