@@ -69,7 +69,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // MARK: - ARSCNViewDelegate
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         DispatchQueue.main.async {
-            // self.updateFrame()
             self.arScnStereoViewClass.updateFrame()
         }
     }
