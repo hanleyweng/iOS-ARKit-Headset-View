@@ -64,6 +64,9 @@ class ARSCNStereoViewClass {
         // Scene setup
         sceneView.isHidden = true
         
+        // Set Clear Background (so not to show camera background image, nor have that replicated in sceneViewLeft or sceneViewRight) (for See-Through Modes)
+        sceneView.scene.background.contents = UIColor.clear
+        
         ////////////////////////////////////////////////////////////////
         // Set up Left-Eye SceneView
         sceneViewLeft.scene = scene
