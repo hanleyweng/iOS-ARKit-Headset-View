@@ -57,6 +57,46 @@ class ARSCNStereoViewClass {
         // Set the scene to the view
         sceneView.scene = scene
         
+        // Tweak World Origin so it's between Eyes (Default is initial Camera Position)
+        // sceneView.session.setWorldOrigin(relativeTransform: <#T##simd_float4x4#>) // Todo Later.
+        
+        ////////////////////////////////////////////////////////////////
+        // LIGHTING
+         // sceneView.autoenablesDefaultLighting = true
+        
+        // NOTE: LIGHTING requires additional power.
+        // Priority 1. Directional Light for Shadows.
+        // Priority 2. Ambient Light.
+        
+        // Create a directional light node with shadow
+        let directionalNode = SCNNode()
+        directionalNode.light = SCNLight()
+        directionalNode.light?.type = SCNLight.LightType.directional
+        directionalNode.light?.color = UIColor.white
+        directionalNode.light?.intensity = 2000
+        
+        //        directionalNode.light?.castsShadow = true // to cast shadow
+        //        directionalNode.light?.automaticallyAdjustsShadowProjection = true // ?
+        //        directionalNode.light?.shadowMode = .deferred  // to render shadow in transparent plane
+        //        directionalNode.light?.shadowSampleCount = 64 //remove flickering of shadow and soften shadow
+        //        directionalNode.light?.shadowMapSize = CGSize(width: 2048, height: 2048) //sharpen or detail shadow
+        //        directionalNode.position = SCNVector3(x: 0,y: 0,z: 0)
+        
+        sceneView.pointOfView?.addChildNode(directionalNode)
+
+        
+        // Create a ambient light
+        //        let ambientLight = SCNNode()
+        //        ambientLight.light = SCNLight()
+        //        ambientLight.light?.color = UIColor.white
+        //        ambientLight.light?.type = SCNLight.LightType.ambient
+        //        ambientLight.light?.intensity = 500
+        //        ambientLight.position = SCNVector3(x: 0,y: 0,z: 0)
+        //
+        //        scene.rootNode.addChildNode(ambientLight)
+        
+        
+        ////////////////////////////////////////////////////////////////
         // Set Debug Options
         // sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin]
         sceneView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, .showFeaturePoints]
