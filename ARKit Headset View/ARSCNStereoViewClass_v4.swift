@@ -122,7 +122,7 @@ class ARSCNStereoViewClass {
         sceneView.isHidden = true
         
         // Set Clear Background for See-Through Headsets
-        if _HEADSET_IS_PASSTHROUGH_VS_SEETHROUGH {
+        if !_HEADSET_IS_PASSTHROUGH_VS_SEETHROUGH {
             sceneView.scene.background.contents = UIColor.clear
         }
         
