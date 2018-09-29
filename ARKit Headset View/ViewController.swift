@@ -83,13 +83,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // planeVisualizerHelperClass.renderer(renderer, didAdd: node, for: anchor)
+         planeVisualizerHelperClass.renderer(renderer, didAdd: node, for: anchor)
     }
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        // planeVisualizerHelperClass.renderer(renderer, didUpdate: node, for: anchor)
+         planeVisualizerHelperClass.renderer(renderer, didUpdate: node, for: anchor)
     }
     func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
-        // planeVisualizerHelperClass.renderer(renderer, didRemove: node, for: anchor)
+         planeVisualizerHelperClass.renderer(renderer, didRemove: node, for: anchor)
     }
     
 }

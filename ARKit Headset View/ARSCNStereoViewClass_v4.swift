@@ -71,21 +71,35 @@ class ARSCNStereoViewClass {
         // Priority 1. Directional Light for Shadows.
         // Priority 2. Ambient Light.
         
+        // NOTE: Shadows are only cast by spot (cone) or directional lights (not point/omni). - https://developer.apple.com/documentation/scenekit/scnlight/1523816-castsshadow
+        
         // Create a directional light node with shadow
         let directionalNode = SCNNode()
         directionalNode.light = SCNLight()
         directionalNode.light?.type = SCNLight.LightType.directional
         directionalNode.light?.color = UIColor.white
         directionalNode.light?.intensity = 2000
-        
-                directionalNode.light?.castsShadow = true // to cast shadow
+
+        directionalNode.light?.castsShadow = true // to cast shadow
         //        directionalNode.light?.shadowMode = .deferred  // to render shadow in transparent plane
         //        directionalNode.light?.automaticallyAdjustsShadowProjection = true // ?
         //        directionalNode.light?.shadowSampleCount = 64 //remove flickering of shadow and soften shadow
         //        directionalNode.light?.shadowMapSize = CGSize(width: 2048, height: 2048) //sharpen or detail shadow
         //        directionalNode.position = SCNVector3(x: 0,y: 0,z: 0)
-        
+
         sceneView.pointOfView?.addChildNode(directionalNode)
+        
+//        // Create a spot light node with shadow
+//        let spotLight = SCNLight()
+//        spotLight.type = .spot
+//        spotLight.spotInnerAngle = 45
+//        spotLight.spotOuterAngle = 90
+//        spotLight.intensity = 2000
+//        spotLight.castsShadow = true // to cast shadow
+//        let spotLighNode = SCNNode()
+//        spotLighNode.light = spotLight
+//
+//        sceneView.pointOfView?.addChildNode(spotLighNode)
 
         
         // Create a ambient light
